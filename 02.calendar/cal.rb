@@ -16,7 +16,7 @@ opt.on('-m VAL') do |v|
   if (1..12).cover?(v.to_i)
     v
   else
-    abort "月の指定が正しくありません '#{v}'"
+    abort "エラー: 正しく処理できない月です '#{v}'"
   end
 end
 
@@ -48,23 +48,18 @@ class MyCal
     puts '日 月 火 水 木 金 土'
     first_day = Date.new(@year, @month, 1)
     last_day  = Date.new(@year, @month, -1)
-    (first_day..last_day).each.with_index(1) do |d, n|
-      youbi = d.wday
-      youbi.times { print '   ' } if n == 1
 
-      if d == Date.today
-        print "\e[7m#{d.day.to_s.rjust(2)}\e[0m"
-      else
-        print d.day.to_s.rjust(2)
-      end
+    first_day.wday.times { print '   ' }
 
-      if youbi == 6
-        puts
+    (first_day..last_day).each do |date|
+      if date == Date.today
+        print "\e[7m#{date.day.to_s.rjust(2)}\e[0m"
       else
-        print ' '
+        print date.day.to_s.rjust(2)
       end
+      print(date.saturday? ? "\n" : ' ')
     end
-    puts 
+    puts
     puts
   end
 end
