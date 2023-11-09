@@ -1,3 +1,4 @@
+#! /usr/bin/env ruby
 # frozen_string_literal: true
 
 require 'optparse'
@@ -49,7 +50,7 @@ class MyCal
     first_day = Date.new(@year, @month, 1)
     last_day  = Date.new(@year, @month, -1)
 
-    first_day.wday.times { print '   ' }
+    print '   ' * first_day.wday
 
     (first_day..last_day).each do |date|
       if date == Date.today
