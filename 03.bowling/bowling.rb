@@ -24,27 +24,25 @@ frames = (1..10).map do |i|
   end
 end
 
-total_point = 0
-frames.each_with_index do |frame, i|
-  # 全てのフレーム
-  total_point += frame.sum
+total_point = frames.each_with_index.sum do |frame, i|
+  frame_point = frame.sum
 
-  # ストライク
   if frame[0] == 10
     if i == 8
-      total_point += frames[i + 1][0..1].sum
+      frame_point += frames[i + 1][0..1].sum
     elsif i < 8
-      total_point += frames[i + 1][0]
-      total_point += if frames[i + 1][0] == 10
+      frame_point += frames[i + 1][0]
+      frame_point += if frames[i + 1][0] == 10
                        frames[i + 2][0]
                      else
                        frames[i + 1][1]
                      end
     end
-  # スペア
   elsif frame.sum == 10
-    total_point += frames[i + 1][0]
+    frame_point += frames[i + 1][0] unless i == 9
   end
+
+  frame_point
 end
 
 puts total_point
